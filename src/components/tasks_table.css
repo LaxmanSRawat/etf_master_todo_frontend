@@ -1,4 +1,8 @@
 .task_table {
     height: 500px;
-    width: 1000px;;
+    width: 1400px;
+}
+
+.ag-header-cell-label, .ag-header-group-cell-label {
+    justify-content: center;
 }

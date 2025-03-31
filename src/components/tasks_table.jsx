@@ -1,4 +1,4 @@
-import {AllCommunityModule, ModuleRegistry} from 'ag-grid-community'
+import {AllCommunityModule, ModuleRegistry, themeQuartz } from 'ag-grid-community'
 import {AgGridReact} from 'ag-grid-react'
 import { useMemo, useState, useEffect } from 'react'
 import './tasks_table.css'
@@ -8,6 +8,19 @@ ModuleRegistry.registerModules([AllCommunityModule])
 
 // Fetch data & update rowData state
 
+
+const myTheme = themeQuartz.withParams({
+    /* Low spacing = very compact */
+    spacing: 2,
+    /* Changes the color of the grid text */
+    foregroundColor: 'rgba(255, 255, 255, 0.87)',
+    /* Changes the color of the grid background */
+    backgroundColor: ' #1a1a1a',
+    /* Changes the header color of the top row */
+    headerBackgroundColor: ' #1a1a1a',
+    /* Changes the hover color of the row*/
+    // rowHoverColor: 'rgb(216, 226, 255)',
+});
 
 function status_id_mapping(status_id) {
     switch (status_id) {
@@ -69,7 +82,7 @@ function priority_id_mapping(priority_id) {
         { field: "planned_end_date" },
         { field: "status", valueGetter: (p) => status_id_mapping(p.data.status_id)},
         { field: "priority", valueGetter: (p) => priority_id_mapping(p.data.priority_id)},
-        { field: "completed",valueGetter: (p) => p.data.completed_on?true:false }
+        { field: "is_completed",valueGetter: (p) => p.data.completed_on?true:false, editable:true, cellRenderer: 'agCheckboxCellRenderer', cellEditor: "agCheckboxCellEditor",}
     ]);
 
     const rowSelection = useMemo(() => {
@@ -91,7 +104,8 @@ function priority_id_mapping(priority_id) {
             rowSelection={rowSelection}
             pagination={pagination}
             paginationPageSize={paginationPageSize}
-            paginationPageSizeSelector={paginationPageSizeSelector} />
+            paginationPageSizeSelector={paginationPageSizeSelector}
+            theme={myTheme} />
         </div>
     )
 
